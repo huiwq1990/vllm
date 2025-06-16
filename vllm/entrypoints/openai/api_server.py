@@ -69,7 +69,7 @@ from vllm.entrypoints.openai.protocol import (ChatCompletionRequest,
                                               PoolingRequest, PoolingResponse,
                                               RerankRequest, RerankResponse,
                                               ScoreRequest, ScoreResponse,
-                                              TokenizeRequest,
+                                              TokenizeRequest,StreamOptions,
                                               TokenizeResponse,
                                               TranscriptionRequest,
                                               TranscriptionResponse,
@@ -550,6 +550,9 @@ async def create_chat_completion(request: ChatCompletionRequest,
     if handler is None:
         return base(raw_request).create_error_response(
             message="The model does not support Chat Completions API")
+
+    if request.stream_options is None:
+        request.stream_options = StreamOptions(include_usage=True, continuous_usage_stats=False)
 
     generator = await handler.create_chat_completion(request, raw_request)
 
