@@ -15,17 +15,21 @@
 
 ```shell
 
-docker pull registry.cn-beijing.aliyuncs.com/huiwq1990/public-vllm-cpu-env-v0.0.2 
-
+srcTag=vllm-cpu-env-qwen1
+destTag=qwen1
+docker pull registry.cn-beijing.aliyuncs.com/huiwq1990/public:${srcTag}
+docker tag registry.cn-beijing.aliyuncs.com/huiwq1990/public:${srcTag} hub.jdcloud.com/jdos-edge/vllm-cpu-env:${destTag}
+docker push hub.jdcloud.com/jdos-edge/vllm-cpu-env:${destTag}
 
 docker run --rm \
   --privileged=true \
-  --shm-size=4g \
+  --shm-size=15g \
   -p 8000:8000 \
-  -e VLLM_USE_MODELSCOPE=true \
   -e VLLM_LOGGING_LEVEL=DEBUG \
-  registry.cn-beijing.aliyuncs.com/huiwq1990/public-vllm-cpu-env-v0.0.2 \
-  --model=facebook/opt-125m \
-  --swap-space=0
+  hub.jdcloud.local/jdos-edge/vllm-cpu-env:qwen1 \
+  --served-model-name=Qwen/Qwen2.5-VL-3B-Instruct \
+  --model=/root/.cache/modelscope/hub/models/Qwen/Qwen2.5-VL-3B-Instruct \
+  --swap-space=2 \
+  --max_model_len=12800
 
 ```
