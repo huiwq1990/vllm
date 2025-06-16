@@ -1,8 +1,11 @@
 
 name: Push Image
 
-on: push
-
+#on: push
+on:
+  push:
+    tags:
+      - "v*"
 permissions:
   contents: read
 
