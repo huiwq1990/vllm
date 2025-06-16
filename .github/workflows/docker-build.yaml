@@ -24,6 +24,6 @@ jobs:
           echo "login aliyun registry"
           docker login --username=huiwq1990@163.com -p Cr@123456 registry.cn-beijing.aliyuncs.com/huiwq1990/public
           echo "build image"
-          docker buildx build --build-arg VLLM_CPU_DISABLE_AVX512="true" -f docker/Dockerfile.cpu -t registry.cn-beijing.aliyuncs.com/huiwq1990/public:vllm-cpu-env-base1 .
+          docker buildx build --build-arg VLLM_CPU_DISABLE_AVX512="true" --push -f docker/Dockerfile.cpu -t registry.cn-beijing.aliyuncs.com/huiwq1990/public:vllm-cpu-env-base1 .
 
           #docker buildx build --push -f docker/Dockerfile.qwen -t registry.cn-beijing.aliyuncs.com/huiwq1990/public:vllm-cpu-env-qwen1 .
